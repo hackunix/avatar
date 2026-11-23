@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khung Avatar HackUNIX — CLB Máy tính HPU | Tạo avatar chính chủ trong 1 phút</title>
+  <meta name="description" content="Tạo khung avatar HackUNIX chính chủ của CLB Máy tính HPU: tải ảnh lên, cắt theo hình tròn, đóng khung và tải về PNG trong suốt 2048px. Miễn phí, không cần đăng nhập, ảnh không rời khỏi thiết bị của bạn." />
+  <meta name="theme-color" content="#5ca9ec" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%232e6fd8'/%3E%3Ctext x='32' y='42' font-family='Arial Black,sans-serif' font-size='26' font-weight='900' fill='%23ffffff' text-anchor='middle'%3EHU%3C/text%3E%3Cpath fill='%23ffc93c' d='M50 6l1.8 5.4L57 13l-5.2 1.6L50 20l-1.8-5.4L43 13l5.2-1.6z'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+  <!-- ===== Decorative background ===== -->
+  <div class="bg-decor" aria-hidden="true">
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-cloud bg-cloud--left"></div>
+    <div class="bg-cloud bg-cloud--right"></div>
+    <span class="bg-sparkle bg-sparkle--1"></span>
+    <span class="bg-sparkle bg-sparkle--2"></span>
+    <span class="bg-sparkle bg-sparkle--3"></span>
+    <span class="bg-sparkle bg-sparkle--4"></span>
+    <span class="bg-sparkle bg-sparkle--5"></span>
+  </div>
+
+  <!-- ===== Top navigation ===== -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#" aria-label="HackUNIX — về đầu trang">
+        <img class="brand-logo" src="HackUNIX_logo_white.png" alt="Logo HackUNIX — CLB Máy tính HPU" />
+        <span class="brand-text">
+          <strong>HACKUNIX</strong>
+          <small>CLB MÁY TÍNH HPU</small>
+        </span>
+      </a>
+
+      <span class="nav-oval">CLB Máy Tính HPU</span>
+
+      <nav class="nav-links" aria-label="Điều hướng chính">
+        <a href="#studio">Studio</a>
+        <a href="#tinh-nang">Tính năng</a>
+        <a href="#faq">Hỏi đáp</a>
+        <a class="btn btn-white btn-sm" href="#studio">Tạo khung ngay
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="hero-pill"><span class="dot"></span>Tuyển Thành Viên 2026</span>
+        <h1 class="hero-title">
+          KHUNG<br />AVATAR
+          <span class="line2">HACKUNIX
+            <svg class="underline-stroke" viewBox="0 0 320 22" fill="none" aria-hidden="true">
+              <path d="M6 15c58-8.5 128-12 182-9.5 46 2.1 92 7.6 126 12.5" stroke="#ff6b4a" stroke-width="7" stroke-linecap="round" opacity="0.95"/>
+            </svg>
+          </span>
+        </h1>
+        <p class="hero-sub">
+          Công cụ chính chủ của <strong>CLB Máy tính HPU</strong>: tải ảnh lên, cắt thông minh
+          và đóng khung HackUNIX <strong>ngay trên trình duyệt</strong> — rồi đăng lên
+          Facebook, Zalo, Discord hay X chỉ với một cú nhấp.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#studio">Tạo khung ngay
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v13m0 0l-4.5-4.5M12 16l4.5-4.5M4 21h16" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#tinh-nang">Vì sao dùng khung này?</a>
+        </div>
+        <div class="hero-trust">
+          <span class="trust-item"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="#ffc93c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>100% miễn phí</span>
+          <span class="trust-item"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="#ffc93c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Không cần đăng nhập</span>
+          <span class="trust-item"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="#ffc93c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Ảnh không rời khỏi máy bạn</span>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <svg class="hero-ring" viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="96" stroke="rgba(255,255,255,.65)" stroke-width="1.4" stroke-dasharray="3 9"/>
+        </svg>
+
+        <div class="float-card">
+          <canvas id="heroAvatar" width="640" height="640" role="img" aria-label="Ảnh minh hoạ khung avatar HackUNIX"></canvas>
+          <div class="float-caption">
+            <img src="HackUNIX_logo_white.png" alt="" />
+            <div>
+              <strong>HackUNIX — CLB Máy tính HPU</strong>
+              <small>@hackunix · HPU</small>
+            </div>
+            <svg class="heart" width="22" height="22" viewBox="0 0 24 24" fill="#ff6b4a" aria-hidden="true"><path d="M12 21s-7.5-4.9-10-9.2C.4 8.6 2.6 5.2 6.2 5.2c2.2 0 3.9 1.2 5.8 3.4 1.9-2.2 3.6-3.4 5.8-3.4 3.6 0 5.8 3.4 4.2 6.6C19.5 16.1 12 21 12 21z"/></svg>
+          </div>
+        </div>
+
+        <div class="sticker sticker--free">100%<br/>MIỄN<br/>PHÍ</div>
+        <div class="badge-float"><img src="HackUNIX_logo_white.png" alt="" /></div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <!-- ===== Studio ===== -->
+    <section id="studio" class="studio container" aria-label="Studio tạo khung avatar">
+      <div class="studio-card">
+        <div class="studio-head">
+          <div>
+            <span class="kicker">Avatar Frame Studio</span>
+            <h2>Tạo khung avatar của bạn</h2>
+          </div>
+          <div class="head-chips">
+            <span class="chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>PNG nền trong suốt</span>
+            <span class="chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 10h18" stroke="currentColor" stroke-width="2"/></svg>1024 – 2048 px</span>
+          </div>
+        </div>
+
+        <div class="studio-grid">
+          <!-- ==== Cột trái: canvas stage ==== -->
+          <div class="stage-col">
+            <div class="stage-wrap" id="dropZone">
+              <canvas class="stage" id="stage" width="1024" height="1024" tabindex="0" role="img" aria-label="Xem trước khung avatar — kéo để di chuyển ảnh, dùng con lăn để thu phóng"></canvas>
+
+              <div class="stage-empty" id="emptyState">
+                <div class="empty-icon">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V6m0 0L8.5 9.5M12 6l3.5 3.5" stroke="#1d5bd8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3.5A2.5 2.5 0 006.5 21h11a2.5 2.5 0 002.5-2.5V15" stroke="#1d5bd8" stroke-width="2" stroke-linecap="round"/></svg>
+                </div>
+                <strong>Kéo &amp; thả ảnh vào đây</strong>
+                <span>hoặc</span>
+                <button class="btn btn-primary btn-sm" id="btnEmptyUpload" type="button">Tải ảnh lên từ máy</button>
+                <small>JPG, PNG, WebP, AVIF · tối đa 10MB · có thể dán (Ctrl/⌘+V)</small>
+              </div>
+            </div>
+
+            <div class="stage-actions">
+              <p class="file-meta">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 2h9l5 5v15a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                <span id="fileMeta">Ảnh mẫu — tải ảnh của bạn lên</span>
+              </p>
+              <div class="stage-actions-right">
+                <button class="icon-btn" id="btnChange" type="button">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16v4h4M20 8V4h-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 4L11 13M4 20l9-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                  Đổi ảnh
+                </button>
+                <button class="icon-btn" id="btnReset" type="button">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12a9 9 0 109-9 9.5 9.5 0 00-6.7 3L3 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 3v5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Đặt lại
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==== Cột phải: panel điều khiển ==== -->
+          <aside class="panel-col" aria-label="Các bước tạo khung">
+
+            <!-- Bước 1 -->
+            <div class="step">
+              <div class="step-head"><span class="step-num">1</span><span class="step-title">Tải ảnh lên</span><span class="step-rule"></span></div>
+              <div class="upload-box">
+                <div class="upload-ico">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V6m0 0L8.5 9.5M12 6l3.5 3.5" stroke="#1d5bd8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3.5A2.5 2.5 0 006.5 21h11a2.5 2.5 0 002.5-2.5V15" stroke="#1d5bd8" stroke-width="2" stroke-linecap="round"/></svg>
+                </div>
+                <p><strong>Ảnh chân dung chính diện</strong> cho đẹp nhất.<br/>
+                  Kéo-thả vào khung xem trước, hoặc <kbd>Ctrl/⌘</kbd> + <kbd>V</kbd> để dán trực tiếp.
+                </p>
+              </div>
+              <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/avif,image/gif" hidden />
+              <button class="btn btn-primary btn-sm" id="btnUpload" type="button" style="margin-top:10px; width:100%; justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2.5A2.5 2.5 0 006.5 22h11a2.5 2.5 0 002.5-2.5V17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                Chọn ảnh từ thiết bị
+              </button>
+            </div>
+
+            <!-- Bước 2 -->
+            <div class="step">
+              <div class="step-head"><span class="step-num">2</span><span class="step-title">Cắt &amp; căn chỉnh</span><span class="step-rule"></span></div>
+              <div class="ctrl-row">
+                <label class="ctrl-label" for="zoomRange">Phóng to</label>
+                <input type="range" id="zoomRange" min="50" max="300" value="100" step="1" aria-describedby="zoomValue" />
+                <span class="ctrl-value" id="zoomValue">100%</span>
+              </div>
+              <div class="ctrl-row">
+                <label class="ctrl-label" for="rotateRange">Xoay ảnh</label>
+                <input type="range" id="rotateRange" min="-180" max="180" value="0" step="1" aria-describedby="rotateValue" />
+                <span class="ctrl-value" id="rotateValue">0°</span>
+              </div>
+              <div class="tool-row">
+                <button class="tool-btn" id="btnFlip" type="button" aria-pressed="false">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v18" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3" stroke-linecap="round"/><path d="M8 8l-4 4 4 4M16 8l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Lật ngang
+                </button>
+                <button class="tool-btn" id="btnRotate90" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12a9 9 0 11-3-6.7L21 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Xoay 90°
+                </button>
+                <button class="tool-btn" type="button" id="btnResetSoft">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                  Xoá chỉnh sửa
+                </button>
+              </div>
+            </div>
+
+            <!-- Bước 3 -->
+            <div class="step">
+              <div class="step-head"><span class="step-num">3</span><span class="step-title">Chọn khung</span><span class="step-rule"></span></div>
+              <div class="frame-grid" id="frameGrid" role="group" aria-label="Danh sách khung avatar"></div>
+            </div>
+
+            <!-- Bước 4 -->
+            <div class="step">
+              <div class="step-head"><span class="step-num">4</span><span class="step-title">Tải về &amp; đăng</span><span class="step-rule"></span></div>
+              <div class="size-switch" role="group" aria-label="Kích thước xuất">
+                <button class="size-pill" type="button" data-size="1024">1024 × 1024</button>
+                <button class="size-pill is-active" type="button" data-size="2048">2048 × 2048</button>
+              </div>
+              <button class="btn btn-primary btn-xl" id="btnDownloadPng" type="button">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v13m0 0l-4.5-4.5M12 16l4.5-4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20h16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                Tải PNG miễn phí
+              </button>
+              <div class="export-row">
+                <button class="btn btn-outline" id="btnDownloadJpeg" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="10" r="1.4" fill="currentColor"/><path d="M21 15.5l-4.5-4.5L9 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  JPEG (nền tối)
+                </button>
+                <button class="btn btn-outline" id="btnCopy" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M16 8V6.5A2.5 2.5 0 0013.5 4h-7A2.5 2.5 0 004 6.5v7A2.5 2.5 0 006.5 16H8" stroke="currentColor" stroke-width="2"/></svg>
+                  Copy ảnh
+                </button>
+              </div>
+              <p class="privacy-note">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 12l2 2 3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Mọi xử lý chạy 100% trên thiết bị — ảnh không bao giờ được tải lên máy chủ.
+              </p>
+            </div>
+          </aside>
+        </div>
+
+        <!-- ==== Xem trên mạng xã hội ==== -->
+        <div class="social-proof">
+          <div class="sp-head">
+            <h3>Xem thử trên mạng xã hội</h3>
+            <p>Khung tự cập nhật theo ảnh bạn đang chỉnh.</p>
+          </div>
+          <div class="sp-tabs" role="tablist" aria-label="Nền tảng mạng xã hội">
+            <button class="sp-tab is-active" type="button" role="tab" aria-selected="true" data-target="mock-fb"><span class="brand-dot dot-fb"></span>Facebook</button>
+            <button class="sp-tab" type="button" role="tab" aria-selected="false" data-target="mock-zalo"><span class="brand-dot dot-zalo"></span>Zalo</button>
+            <button class="sp-tab" type="button" role="tab" aria-selected="false" data-target="mock-discord"><span class="brand-dot dot-discord"></span>Discord</button>
+            <button class="sp-tab" type="button" role="tab" aria-selected="false" data-target="mock-x"><span class="brand-dot dot-x"></span>X</button>
+          </div>
+
+          <div class="sp-stage">
+            <!-- Facebook -->
+            <div class="mock is-active" id="mock-fb" role="tabpanel">
+              <div class="mock-fb-card">
+                <div class="fb-cover"></div>
+                <div class="fb-body">
+                  <img class="mock-avatar fb-avatar" src="assets/img/demo-avatar.jpg" alt="Avatar của bạn trên Facebook" />
+                  <p class="fb-name">Bạn của HackUNIX</p>
+                  <p class="fb-meta">1.2K bạn bè · HPU · Thành viên CLB Máy tính</p>
+                  <div class="fb-actions"><span>Thích</span><span>Bình luận</span><span>Chia sẻ</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Zalo -->
+            <div class="mock" id="mock-zalo" role="tabpanel">
+              <div class="mock-zalo-card">
+                <div class="zalo-top">
+                  <img class="mock-avatar zalo-avatar" src="assets/img/demo-avatar.jpg" alt="Avatar của bạn trên Zalo" />
+                  <div><strong>CLB Máy tính HPU</strong><small>Đang hoạt động</small></div>
+                </div>
+                <div class="zalo-body">
+                  <div class="zalo-bubble">Chào cả nhà! Mình vừa lên khung avatar HackUNIX tuyển thành viên — đẹp xịn quá 😎<div class="zalo-time">19:26 · Đã xem</div></div>
+                </div>
+                <div class="zalo-input">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Nhập tin nhắn…
+                </div>
+              </div>
+            </div>
+
+            <!-- Discord -->
+            <div class="mock" id="mock-discord" role="tabpanel">
+              <div class="mock-discord-card">
+                <div class="discord-row">
+                  <img class="mock-avatar discord-avatar" src="assets/img/demo-avatar.jpg" alt="Avatar của bạn trên Discord" />
+                  <div>
+                    <div class="discord-head">
+                      <span class="discord-name">hackunix_member</span>
+                      <span class="discord-tag">HACKUNIX</span>
+                      <span class="discord-time">Hôm nay lúc 19:26</span>
+                    </div>
+                    <p class="discord-text">Vừa lên khung avatar HackUNIX xong — anh em vào tạo liền kẻo lỡ đợt tuyển! 🔥</p>
+                    <span class="discord-reaction">🔥 24</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- X -->
+            <div class="mock" id="mock-x" role="tabpanel">
+              <div class="mock-x-card">
+                <div class="x-row">
+                  <img class="mock-avatar x-avatar" src="assets/img/demo-avatar.jpg" alt="Avatar của bạn trên X" />
+                  <div>
+                    <div class="x-head">
+                      <span class="x-name">HackUNIX</span>
+                      <svg class="x-badge" viewBox="0 0 24 24" aria-hidden="true"><path fill="#1d9bf0" d="M12 2l2.4 2.4 3.3-.3 1.2 3.1 3 1.5-1.6 2.9 1.6 2.9-3 1.5-1.2 3.1-3.3-.3L12 20.8 9.6 18.4l-3.3.3-1.2-3.1-3-1.5 1.6-2.9-1.6-2.9 3-1.5 1.2-3.1 3.3.3L12 2z"/><path d="M10.6 12.3l-1.9-1.9 1.4-1.4 1.4 1.4 3.7-3.7 1.4 1.4-4.6 4.2z" fill="#fff"/></svg>
+                      <span class="x-handle">@hackunix_club · 2h</span>
+                    </div>
+                    <p class="x-text">Khung avatar chính chủ của CLB Máy tính HPU đã sẵn sàng. Ai chưa có thì tạo ngay tại hackunix — miễn phí, 1 phút là xong 👇</p>
+                    <div class="x-actions">
+                      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 01-8.5 8.5 8.5 8.5 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 018.5-8.5 8.38 8.38 0 018.5 8.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>128</span>
+                      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17 2l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11v-2a4 4 0 014-4h14M7 22l-4-4 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 13v2a4 4 0 01-4 4H3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>342</span>
+                      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7.5-4.9-10-9.2C.4 8.6 2.6 5.2 6.2 5.2c2.2 0 3.9 1.2 5.8 3.4 1.9-2.2 3.6-3.4 5.8-3.4 3.6 0 5.8 3.4 4.2 6.6C19.5 16.1 12 21 12 21z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>1.1K</span>
+                      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12v7a2 2 0 002 2h12a2 2 0 002-2v-7M16 6l-4-4-4 4M12 2v13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Chia sẻ</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Tính năng (poster 3 cột) ===== -->
+    <section id="tinh-nang" class="features container" aria-label="Tính năng nổi bật">
+      <div class="features-grid">
+        <article class="feature">
+          <div class="feature-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="10" r="4" stroke="#fff" stroke-width="2"/><path d="M4 21c1.5-4.5 4.5-6.5 8-6.5s6.5 2 8 6.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M15.5 4.5l2-2 2 2-2 2z" fill="#ffd964"/></svg>
+          </div>
+          <h3>01 — Cắt thông minh</h3>
+          <div class="rule"></div>
+          <h4>Chuẩn mặt, nét căng</h4>
+          <p>Kéo để căn, cuộn chuột hoặc chụm hai ngón để thu phóng, xoay tự do — ảnh luôn được căn giữa khung tròn hoàn hảo, không méo, không vỡ.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="3" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="4.6" stroke="#fff" stroke-width="2"/><path d="M7.5 4.5V3M16.5 4.5V3" stroke="#ffd964" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>02 — Khung chính chủ</h3>
+          <div class="rule"></div>
+          <h4>Logo HackUNIX chuẩn CLB</h4>
+          <p>6 mẫu khung vẽ hoàn toàn bằng vector — logo HackUNIX chính thức, sắc nét từ 1024 đến 2048px. Classic, Tuyển TV 2026, Midnight Hacker, Sky Poster, Minimal, Gold.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 12l2 2 3.5-3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>03 — Riêng tư tuyệt đối</h3>
+          <div class="rule"></div>
+          <h4>Ảnh không rời thiết bị</h4>
+          <p>Toàn bộ xử lý diễn ra trên máy của bạn bằng Canvas API — không upload, không lưu trữ, không theo dõi. Mất mạng vẫn dùng ngon lành.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" class="faq container" aria-label="Câu hỏi thường gặp">
+      <div class="faq-wrap">
+        <h2 class="faq-title">Câu hỏi thường gặp</h2>
+        <p class="faq-sub">Mọi thứ bạn cần biết trước khi đổi avatar.</p>
+
+        <div class="faq-item is-open">
+          <button class="faq-question" type="button" aria-expanded="true">
+            Ảnh của tôi có bị tải lên máy chủ không?
+            <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="#1d5bd8" stroke-width="2.6" stroke-linecap="round"/></svg></span>
+          </button>
+          <div class="faq-answer"><p>Không hề. Ứng dụng chạy hoàn toàn trong trình duyệt của bạn (Canvas API) — ảnh chỉ tồn tại trong bộ nhớ tạm thời của tab đang mở và biến mất khi bạn đóng trang. Không có máy chủ nhận ảnh, không có cơ sở dữ liệu lưu ảnh.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" aria-expanded="false">
+            Dùng cho Facebook, Zalo, Discord, X được không?
+            <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="#1d5bd8" stroke-width="2.6" stroke-linecap="round"/></svg></span>
+          </button>
+          <div class="faq-answer"><p>Được chứ. Bạn xuất ra file PNG vuông nền trong suốt 1024×1024 hoặc 2048×2048 — kích thước chuẩn cho mọi avatar mạng xã hội. Tab “Xem thử trên mạng xã hội” trong Studio cho bạn biết chính xác khung trông thế nào trên từng nền tảng.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" aria-expanded="false">
+            Tôi có cần đăng ký tài khoản hay cài đặt gì không?
+            <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="#1d5bd8" stroke-width="2.6" stroke-linecap="round"/></svg></span>
+          </button>
+          <div class="faq-answer"><p>Không cần gì cả. Mở trang, tải ảnh lên, chọn khung, bấm tải về — khoảng 1 phút. Không đăng ký, không watermark, không giới hạn số lần tạo.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button" aria-expanded="false">
+            Logo trên khung có phải bản chính thức của HackUNIX?
+            <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="#1d5bd8" stroke-width="2.6" stroke-linecap="round"/></svg></span>
+          </button>
+          <div class="faq-answer"><p>Đúng — khung dùng chính logo HackUNIX (CLB Máy tính HPU) trong repo mã nguồn hackunix/avatar. Vui lòng không chỉnh sửa logo hoặc dùng khung cho mục đích thương mại khi chưa được CLB đồng ý.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="HackUNIX_logo_white.png" alt="Logo HackUNIX" />
+        <div>
+          <strong>HACKUNIX</strong>
+          <small>CLB Máy tính HPU · Cộng đồng lập trình &amp; bảo mật</small>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/hackunix/avatar" target="_blank" rel="noopener noreferrer">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.8 5.4.8 11.7c0 5 3.3 9.3 7.8 10.8.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.2-1.7-1.2-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 016 0C16 6.9 17 7.2 18 7.5c.6 1.7.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6a11.3 11.3 0 007.8-10.8C23.2 5.4 18.3.5 12 .5z"/></svg>
+          github.com/hackunix/avatar
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 HackUNIX — CLB Máy tính HPU. Bảo lưu mọi quyền.</span>
+      <span>Frame Engine vẽ bằng Canvas · Logo chính chủ · Mã nguồn mở</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/frames.js"></script>
+  <script src="assets/js/main.js"></script>
+  <noscript>
+    <div style="position:fixed;inset:auto 0 0 0;background:#0f2b46;color:#fff;padding:14px 20px;text-align:center;font-family:sans-serif;z-index:99">Trang này cần JavaScript để tạo khung avatar. Vui lòng bật JavaScript và tải lại trang.</div>
+  </noscript>
+</body>
+</html>
