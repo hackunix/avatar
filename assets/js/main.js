@@ -23,7 +23,7 @@
     offsetY: 0,
     rotation: 0,
     flipH: false,
-    frame: 'classic',
+    frame: 'sunrise',
     exportSize: 2048,
     exportFormat: 'png',
   };
@@ -123,7 +123,7 @@
     if (!hero) return;
     var hctx = hero.getContext('2d');
     var zoom = state.isDemo ? DEMO_ZOOM : state.zoom;
-    window.HXFrames.renderComposite(hctx, hero.width, state.img, { zoom: zoom, offsetX: 0, offsetY: 0, rotation: 0, flipH: false }, 'candy', assets);
+    window.HXFrames.renderComposite(hctx, hero.width, state.img, { zoom: zoom, offsetX: 0, offsetY: 0, rotation: 0, flipH: false }, 'sunrise', assets);
   }
 
   function renderAll() {
@@ -510,7 +510,7 @@
     logo.onerror = function () { toast('Không tải được logo HackUNIX.', 'error'); renderAll(); };
     logo.src = 'HackUNIX_logo_white.png';
 
-    // 4 khung kawaii (raster art đã tách nền + khoét lỗ)
+    // Khung vẽ hoàn toàn bằng Canvas (không ảnh AI) — không có asset raster cần tải thêm
     (window.HXFrames.ART_SOURCES || []).forEach(function (item) {
       var art = new Image();
       art.onload = function () { assets.frameArts[item.id] = art; renderAll(); };

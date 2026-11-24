@@ -14,12 +14,10 @@ Tải ảnh lên → cắt thông minh → đóng khung → tải PNG nền tron
 
 - **Upload mọi cách**: kéo-thả, chọn file, hoặc dán từ clipboard (Ctrl/⌘ + V) — JPG, PNG, WebP, AVIF, GIF ≤ 10MB
 - **Cắt & căn chỉnh mượt mà**: kéo để di chuyển, cuộn chuột / pinch để thu phóng, xoay −180°…180°, lật ngang, xoay 90°, hỗ trợ bàn phím (←→↑↓, +/−)
-- **7 khung avatar** theo 3 chất liệu:
-  - **Kawaii sticker** (tranh minh hoạ tách nền + khoét lỗ tròn, ghép bằng Canvas):
-    `Kẹo Soda` · `Mèo Ngủ Gật` · `Hành Tinh Mint` · `Tux Hacker`
-  - **Tết 2027** (poster đỏ góc cạnh · vòng tròn trắng · chữ vàng 3D — vẽ hoàn toàn bằng Canvas, chữ & logo luôn sắc ở mọi độ phân giải)
-  - **Vector huy hiệu** (vẽ bằng Canvas API, nét tuyệt đối ở 2048px):
-    `Classic HPU` · `Gold Member`
+- **3 khung avatar** cùng một dòng thiết kế "poster cộng đồng" — gradient ấm góc cạnh, vòng tròn trắng, chữ script tiếng Việt uốn quanh viền, ruy-băng vòng cung dưới đáy, loa + cờ + mây + sparkles vẽ **100% bằng Canvas** (chữ & logo luôn sắc nét ở mọi độ phân giải, không dùng ảnh AI):
+  - `Bình Minh` — cam san hô → vàng nắng (bản thường)
+  - `Lửa Hồng` — đỏ rượu vang + điểm vàng kim (bản sự kiện)
+  - `Đêm Hội` — nâu đen ấm + chữ vàng kim (bản nòng cốt)
 - **Xuất bản chuẩn avatar**: PNG nền trong suốt 1024×1024 / 2048×2048, JPEG nền tối, hoặc **Copy ảnh** vào clipboard
 - **Xem thử trên 4 nền tảng**: mock Facebook / Zalo / Discord / X cập nhật trực tiếp theo chỉnh sửa
 - **Privacy-first**: không máy chủ, không cookie, không tracking, không watermark, không cần đăng nhập
@@ -43,11 +41,11 @@ Deploy: chỉ cần host static (GitHub Pages, Vercel, Netlify, Cloudflare Pages
 ├── index.html                  # Toàn bộ markup (one-page)
 ├── assets/
 │   ├── css/styles.css          # Design system (poster-inspired)
-│   ├── js/frames.js            # Canvas engine: 7 khung (4 raster kawaii + Tết 2027 + 2 vector)
+│   ├── js/frames.js            # Canvas engine: 3 khung poster cộng đồng (Bình Minh · Lửa Hồng · Đêm Hội)
 │   ├── js/main.js              # Upload · crop · picker · export · social mocks
+│   ├── fonts/dancing-script/   # Dancing Script (vi + latin + latin-ext) — chữ script tiếng Việt, nhúng local
 │   └── img/
-│       ├── demo-avatar.jpg     # Ảnh mẫu trong studio
-│       └── frames/art-*.png    # 4 khung kawaii (đã tách nền, khoét lỗ tròn trong suốt)
+│       └── demo-avatar.jpg     # Ảnh mẫu trong studio
 ├── HackUNIX_logo_white.png     # Logo chính chủ (asset của repo)
 └── server.mjs                  # Zero-dependency static server (0.0.0.0)
 ```
