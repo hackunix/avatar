@@ -236,17 +236,18 @@
   }
 
   /* ================= Vignette trong mép ảnh ================= */
-  function photoVignette(ctx, S, m) {
+  function photoVignette(ctx, S, m, r, alpha) {
+    var pr = r || m.photoR;
     ctx.save();
     ctx.beginPath();
-    ctx.arc(m.c, m.c, m.photoR, 0, TAU);
+    ctx.arc(m.c, m.c, pr, 0, TAU);
     ctx.clip();
-    ctx.strokeStyle = 'rgba(6, 22, 40, 0.3)';
+    ctx.strokeStyle = 'rgba(6, 22, 40, ' + (alpha == null ? 0.3 : alpha) + ')';
     ctx.lineWidth = S * 0.045;
     ctx.shadowColor = 'rgba(6, 22, 40, 0.55)';
     ctx.shadowBlur = S * 0.03;
     ctx.beginPath();
-    ctx.arc(m.c, m.c, m.photoR - S * 0.018, 0, TAU);
+    ctx.arc(m.c, m.c, pr - S * 0.018, 0, TAU);
     ctx.stroke();
     ctx.restore();
   }
@@ -385,16 +386,260 @@
   }
 
   /* ================= Composite pipeline ================= */
-  function drawPhoto(ctx, S, image, t) {
+  function poly(ctx, pts, fill) {
+    ctx.save();
+    ctx.fillStyle = fill;
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (var i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function straightLine(ctx, x0, y0, x1, y1, color, width, alpha) {
+    ctx.save();
+    ctx.globalAlpha = alpha == null ? 1 : alpha;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  /* Rounded-rect path (fallback an toàn cho trình duyệt không có ctx.roundRect) */
+  function rr(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  /* Chữ có letterspacing thủ công: đo từng ký tự */
+  function trackedText(ctx, text, cx, y, tracking, fill) {
+    var prevAlign = ctx.textAlign, prevBaseline = ctx.textBaseline;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    if (fill) ctx.fillStyle = fill;
+    var widths = [];
+    var total = 0;
+    var chars = Array.from(text);
+    for (var i = 0; i < chars.length; i++) {
+      var w = ctx.measureText(chars[i]).width;
+      widths.push(w);
+      total += w + (i < chars.length - 1 ? tracking : 0);
+    }
+    var x = cx - total / 2;
+    for (var j = 0; j < chars.length; j++) {
+      if (chars[j] !== ' ') ctx.fillText(chars[j], x, y);
+      x += widths[j] + tracking;
+    }
+    ctx.textAlign = prevAlign;
+    ctx.textBaseline = prevBaseline;
+  }
+
+  function fitFontSize(ctx, text, weight, maxWidth, startSize, minSize) {
+    var size = startSize;
+    while (size > minSize) {
+      ctx.font = weight + ' ' + Math.round(size) + 'px "Baloo 2", "Be Vietnam Pro", sans-serif';
+      if (ctx.measureText(text).width <= maxWidth) break;
+      size -= 2;
+    }
+    return size;
+  }
+
+  /* ================= TẾT 2027 (poster đỏ · vòng tròn trắng · chữ vàng 3D) ================= */
+  /** Lớp nền vẽ TRƯỚC ảnh: poster đỏ + vòng tròn trắng */
+  function tetUnderlay(ctx, S, assets) {
+    var c = S / 2;
+    // Nền đỏ gradient chéo
+    var g = ctx.createLinearGradient(0, 0, S, S);
+    g.addColorStop(0, '#F43440');
+    g.addColorStop(1, '#B5121E');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, S, S);
+    // Facets đa giác (overlay, không đè alpha lên ảnh gốc)
+    poly(ctx, [[S, 0], [S, S * 0.46], [S * 0.58, 0]], 'rgba(255,255,255,0.10)');
+    poly(ctx, [[S, S * 0.30], [S, S], [S * 0.48, S]], 'rgba(48,0,12,0.41)');
+    poly(ctx, [[0, S * 0.60], [0, S], [S * 0.37, S]], 'rgba(48,0,12,0.35)');
+    poly(ctx, [[0, 0], [S * 0.32, 0], [0, S * 0.26]], 'rgba(255,255,255,0.06)');
+    // Pinstripe chéo
+    straightLine(ctx, S * 0.52, 0, S, S * 0.36, '#FFFFFF', S * 0.005, 0.14);
+    straightLine(ctx, S * 0.62, 0, S, S * 0.30, '#FFFFFF', S * 0.003, 0.09);
+    // Halftone chấm 2 góc
+    var corners = [[S * 0.065, S * 0.08], [S * 0.935, S * 0.9]];
+    corners.forEach(function (base, ci) {
+      for (var gx = 0; gx < 6; gx++) {
+        for (var gy = 0; gy < 5; gy++) {
+          var rr = S * Math.max(0.0025, 0.0075 - gy * 0.0012);
+          var dir = ci === 0 ? 1 : -1;
+          var x = base[0] + dir * gx * S * 0.045;
+          var y = base[1] + gy * S * 0.045;
+          ctx.save();
+          ctx.globalAlpha = ci === 0 ? 0.12 : 0.09;
+          ctx.fillStyle = '#FFFFFF';
+          ctx.beginPath();
+          ctx.arc(x, y, rr, 0, TAU);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    });
+    // Sparkles trên nền
+    star4(ctx, S * 0.145, S * 0.31, S * 0.015, '#FFFFFF', 0.38);
+    star4(ctx, S * 0.885, S * 0.28, S * 0.018, '#FFFFFF', 0.35);
+    star4(ctx, S * 0.815, S * 0.53, S * 0.011, '#FFFFFF', 0.3);
+    star4(ctx, S * 0.16, S * 0.55, S * 0.010, '#FFFFFF', 0.28);
+    // Ánh sáng hắt sau vòng tròn
+    var rg = ctx.createRadialGradient(c, c, S * 0.08, c, c, S * 0.52);
+    rg.addColorStop(0, 'rgba(255,255,255,0.30)');
+    rg.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = rg;
+    ctx.fillRect(0, 0, S, S);
+    // Vòng tròn trắng với bóng đổ mềm
+    ctx.save();
+    ctx.shadowColor = 'rgba(46,0,12,0.6)';
+    ctx.shadowBlur = S * 0.035;
+    ctx.shadowOffsetY = S * 0.012;
+    ctx.beginPath();
+    ctx.arc(c, c, S * 0.435, 0, TAU);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+    ctx.restore();
+    // Viền trong ấm
+    ctx.save();
+    ctx.globalAlpha = 0.5;
+    ctx.strokeStyle = '#FFEFDD';
+    ctx.lineWidth = S * 0.006;
+    ctx.beginPath();
+    ctx.arc(c, c, S * 0.428, 0, TAU);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  /** Lớp phủ VẼ SAU ảnh: capsule logo trên + banner vàng 3D dưới */
+  function renderTet(ctx, S, assets) {
+    var c = S / 2;
+
+    /* ---- Capsule đỏ + logo HackUNIX straddling đỉnh vòng tròn ---- */
+    var capW = S * 0.3, capH = S * 0.074, capY = S * 0.088;
+    ctx.save();
+    ctx.shadowColor = 'rgba(46,0,12,0.6)';
+    ctx.shadowBlur = S * 0.014;
+    ctx.shadowOffsetY = S * 0.008;
+    rr(ctx, c - capW / 2, capY - capH / 2, capW, capH, capH / 2);
+    var cg = ctx.createLinearGradient(0, capY - capH / 2, 0, capY + capH / 2);
+    cg.addColorStop(0, '#DC3540');
+    cg.addColorStop(1, '#A8121C');
+    ctx.fillStyle = cg;
+    ctx.fill();
+    ctx.restore();
+    rr(ctx, c - capW / 2, capY - capH / 2, capW, capH, capH / 2);
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = S * 0.008;
+    ctx.stroke();
+    var logo = assets.logo;
+    if (logo && logo.complete && logo.naturalWidth > 0) {
+      var lw = capW * 0.6;
+      var lh = lw * (logo.naturalHeight / logo.naturalWidth);
+      ctx.drawImage(logo, c - lw / 2, capY - lh / 2, lw, lh);
+    }
+
+    /* ---- Banner đỏ đô xoay -2.5°, chữ vàng 3D ---- */
+    ctx.save();
+    ctx.translate(c, S * 0.815);
+    ctx.rotate((-2.5 * Math.PI) / 180);
+    var BW = S * 0.94, BH = S * 0.285;
+
+    // Thân banner + bóng
+    ctx.save();
+    ctx.shadowColor = 'rgba(46,0,12,0.55)';
+    ctx.shadowBlur = S * 0.02;
+    ctx.shadowOffsetY = S * 0.012;
+    rr(ctx, -BW / 2, -BH / 2, BW, BH, S * 0.045);
+    var bg = ctx.createLinearGradient(0, -BH / 2, 0, BH / 2);
+    bg.addColorStop(0, '#C82028');
+    bg.addColorStop(1, '#8A0E16');
+    ctx.fillStyle = bg;
+    ctx.fill();
+    ctx.restore();
+    // Viền ngoài đậm + highlight trên
+    rr(ctx, -BW / 2, -BH / 2, BW, BH, S * 0.045);
+    ctx.strokeStyle = '#56060D';
+    ctx.lineWidth = S * 0.011;
+    ctx.stroke();
+    straightLine(ctx, -BW / 2 + S * 0.05, -BH / 2 + S * 0.016, BW / 2 - S * 0.05, -BH / 2 + S * 0.016, '#FFFFFF', S * 0.005, 0.18);
+
+    // Line A — kicker kem
+    ctx.font = '800 ' + Math.round(S * 0.028) + 'px "Baloo 2", "Be Vietnam Pro", sans-serif';
+    ctx.fillStyle = '#FFE3B3';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    trackedText(ctx, 'CHÚC MỪNG NĂM MỚI', 0, -BH * 0.305, S * 0.0075, '#FFE3B3');
+    // Sparkle hai đầu dòng A
+    star4(ctx, -BW / 2 + S * 0.035, -BH * 0.30, S * 0.017, '#FFE9B3', 0.95);
+    star4(ctx, BW / 2 - S * 0.035, -BH * 0.24, S * 0.017, '#FFE9B3', 0.95);
+
+    // Line B — TẾT 2027 chữ vàng 3D
+    var tb = 'TẾT 2027';
+    var size = fitFontSize(ctx, tb, 800, BW * 0.80, S * 0.115, S * 0.065);
+    ctx.font = '800 ' + Math.round(size) + 'px "Baloo 2", "Be Vietnam Pro", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.lineJoin = 'round';
+    ctx.miterLimit = 2;
+    var tyB = BH * 0.02;
+    var step = Math.max(2, size * 0.022);
+    var sw = Math.max(2, size * 0.045);
+    for (var i = 10; i >= 1; i--) {
+      ctx.lineWidth = sw;
+      ctx.strokeStyle = '#4A070B';
+      ctx.strokeText(tb, 0, tyB + i * step);
+      ctx.fillStyle = '#4A070B';
+      ctx.fillText(tb, 0, tyB + i * step);
+    }
+    ctx.lineWidth = sw;
+    ctx.strokeStyle = '#4A070B';
+    ctx.strokeText(tb, 0, tyB);
+    var fg = ctx.createLinearGradient(0, tyB - size * 0.55, 0, tyB + size * 0.55);
+    fg.addColorStop(0, '#FFFDF0');
+    fg.addColorStop(0.28, '#FFE873');
+    fg.addColorStop(0.55, '#F5C14E');
+    fg.addColorStop(0.78, '#E39B2D');
+    fg.addColorStop(1, '#B8751F');
+    ctx.fillStyle = fg;
+    ctx.fillText(tb, 0, tyB);
+
+    // Line C — pill kem chữ đỏ
+    var pillW = BW * 0.6, pillH = BH * 0.16, py = BH * 0.39;
+    rr(ctx, -pillW / 2, py - pillH / 2, pillW, pillH, pillH / 2);
+    ctx.fillStyle = '#FFE9C9';
+    ctx.fill();
+    var pillText = 'HACKUNIX · CLB MÁY TÍNH HPU';
+    var pSize = fitFontSize(ctx, pillText, 800, pillW * 0.9, S * 0.02, S * 0.011);
+    ctx.font = '800 ' + Math.round(pSize) + 'px "Baloo 2", "Be Vietnam Pro", sans-serif';
+    trackedText(ctx, pillText, 0, py + 1, S * 0.004, '#B8151F');
+
+    ctx.restore();
+  }
+
+  function drawPhoto(ctx, S, image, t, photoR) {
     var m = metrics(S);
+    var pr = photoR || m.photoR;
     ctx.save();
     ctx.beginPath();
-    ctx.arc(m.c, m.c, m.photoR, 0, TAU);
+    ctx.arc(m.c, m.c, pr, 0, TAU);
     ctx.clip();
 
     if (image && image.naturalWidth) {
       var iw = image.naturalWidth, ih = image.naturalHeight;
-      var cover = Math.max((m.photoR * 2) / iw, (m.photoR * 2) / ih);
+      var cover = Math.max((pr * 2) / iw, (pr * 2) / ih);
       var k = cover * (t.zoom || 1);
       ctx.translate(m.c + (t.offsetX || 0) * S, m.c + (t.offsetY || 0) * S);
       ctx.rotate(((t.rotation || 0) * Math.PI) / 180);
@@ -416,7 +661,7 @@
       ctx.fill();
     }
     ctx.restore();
-    photoVignette(ctx, S, m);
+    photoVignette(ctx, S, m, pr, 0.26);
   }
 
   function renderComposite(ctx, S, image, t, frameId, assets, opts) {
@@ -429,8 +674,9 @@
       ctx.clearRect(0, 0, S, S);
     }
     t = t || {};
-    drawPhoto(ctx, S, image, t);
     var frame = FRAMES.filter(function (f) { return f.id === frameId; })[0] || FRAMES[0];
+    if (frame.underlay) frame.underlay(ctx, S, assets || {});
+    drawPhoto(ctx, S, image, t, frame.photoR);
     frame.render(ctx, S, assets || {});
     ctx.restore();
   }
@@ -440,6 +686,7 @@
     { id: 'sleepycat', name: 'Mèo Ngủ Gật',   vi: 'Boss nấp trên đám mây',     render: makeArtRenderer('sleepycat') },
     { id: 'mint',      name: 'Hành Tinh Mint', vi: 'Tên lửa du hành vũ trụ',    render: makeArtRenderer('mint') },
     { id: 'tux',       name: 'Tux Hacker',     vi: 'Penguin hoodie + mạch điện', render: makeArtRenderer('tux') },
+    { id: 'tet2027',   name: 'Tết 2027',       vi: 'Poster đỏ · chữ vàng 3D',   underlay: tetUnderlay, render: renderTet },
     { id: 'classic',   name: 'Classic HPU',    vi: 'Bản sắc CLB nghiêm túc',    render: renderClassic },
     { id: 'gold',      name: 'Gold Member',    vi: 'Nguyệt quế cho nòng cốt',   render: renderGold },
   ];

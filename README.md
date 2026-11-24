@@ -14,9 +14,10 @@ Tải ảnh lên → cắt thông minh → đóng khung → tải PNG nền tron
 
 - **Upload mọi cách**: kéo-thả, chọn file, hoặc dán từ clipboard (Ctrl/⌘ + V) — JPG, PNG, WebP, AVIF, GIF ≤ 10MB
 - **Cắt & căn chỉnh mượt mà**: kéo để di chuyển, cuộn chuột / pinch để thu phóng, xoay −180°…180°, lật ngang, xoay 90°, hỗ trợ bàn phím (←→↑↓, +/−)
-- **6 khung avatar** theo 2 chất liệu:
+- **7 khung avatar** theo 3 chất liệu:
   - **Kawaii sticker** (tranh minh hoạ tách nền + khoét lỗ tròn, ghép bằng Canvas):
     `Kẹo Soda` · `Mèo Ngủ Gật` · `Hành Tinh Mint` · `Tux Hacker`
+  - **Tết 2027** (poster đỏ góc cạnh · vòng tròn trắng · chữ vàng 3D — vẽ hoàn toàn bằng Canvas, chữ & logo luôn sắc ở mọi độ phân giải)
   - **Vector huy hiệu** (vẽ bằng Canvas API, nét tuyệt đối ở 2048px):
     `Classic HPU` · `Gold Member`
 - **Xuất bản chuẩn avatar**: PNG nền trong suốt 1024×1024 / 2048×2048, JPEG nền tối, hoặc **Copy ảnh** vào clipboard
@@ -42,7 +43,7 @@ Deploy: chỉ cần host static (GitHub Pages, Vercel, Netlify, Cloudflare Pages
 ├── index.html                  # Toàn bộ markup (one-page)
 ├── assets/
 │   ├── css/styles.css          # Design system (poster-inspired)
-│   ├── js/frames.js            # Canvas engine: 6 khung (4 raster kawaii + 2 vector)
+│   ├── js/frames.js            # Canvas engine: 7 khung (4 raster kawaii + Tết 2027 + 2 vector)
 │   ├── js/main.js              # Upload · crop · picker · export · social mocks
 │   └── img/
 │       ├── demo-avatar.jpg     # Ảnh mẫu trong studio
