@@ -14,8 +14,11 @@ Tải ảnh lên → cắt thông minh → đóng khung → tải PNG nền tron
 
 - **Upload mọi cách**: kéo-thả, chọn file, hoặc dán từ clipboard (Ctrl/⌘ + V) — JPG, PNG, WebP, AVIF, GIF ≤ 10MB
 - **Cắt & căn chỉnh mượt mà**: kéo để di chuyển, cuộn chuột / pinch để thu phóng, xoay −180°…180°, lật ngang, xoay 90°, hỗ trợ bàn phím (←→↑↓, +/−)
-- **6 khung vector chính chủ** (vẽ hoàn toàn bằng Canvas, sắc nét ở mọi độ phân giải):
-  `Classic HPU` · `Tuyển TV 2026` · `Midnight Hacker` · `Sky Poster` · `Minimal White` · `Gold Member`
+- **6 khung avatar** theo 2 chất liệu:
+  - **Kawaii sticker** (tranh minh hoạ tách nền + khoét lỗ tròn, ghép bằng Canvas):
+    `Kẹo Soda` · `Mèo Ngủ Gật` · `Hành Tinh Mint` · `Tux Hacker`
+  - **Vector huy hiệu** (vẽ bằng Canvas API, nét tuyệt đối ở 2048px):
+    `Classic HPU` · `Gold Member`
 - **Xuất bản chuẩn avatar**: PNG nền trong suốt 1024×1024 / 2048×2048, JPEG nền tối, hoặc **Copy ảnh** vào clipboard
 - **Xem thử trên 4 nền tảng**: mock Facebook / Zalo / Discord / X cập nhật trực tiếp theo chỉnh sửa
 - **Privacy-first**: không máy chủ, không cookie, không tracking, không watermark, không cần đăng nhập
@@ -39,9 +42,11 @@ Deploy: chỉ cần host static (GitHub Pages, Vercel, Netlify, Cloudflare Pages
 ├── index.html                  # Toàn bộ markup (one-page)
 ├── assets/
 │   ├── css/styles.css          # Design system (poster-inspired)
-│   ├── js/frames.js            # Canvas engine: 6 khung + composite pipeline
+│   ├── js/frames.js            # Canvas engine: 6 khung (4 raster kawaii + 2 vector)
 │   ├── js/main.js              # Upload · crop · picker · export · social mocks
-│   └── img/demo-avatar.jpg     # Ảnh mẫu trong studio
+│   └── img/
+│       ├── demo-avatar.jpg     # Ảnh mẫu trong studio
+│       └── frames/art-*.png    # 4 khung kawaii (đã tách nền, khoét lỗ tròn trong suốt)
 ├── HackUNIX_logo_white.png     # Logo chính chủ (asset của repo)
 └── server.mjs                  # Zero-dependency static server (0.0.0.0)
 ```

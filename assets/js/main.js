@@ -28,7 +28,7 @@
     exportFormat: 'png',
   };
 
-  var assets = { logo: null };
+  var assets = { logo: null, frameArts: {} };
   var stage = $('#stage');
   var sctx = stage.getContext('2d');
 
@@ -123,7 +123,7 @@
     if (!hero) return;
     var hctx = hero.getContext('2d');
     var zoom = state.isDemo ? DEMO_ZOOM : state.zoom;
-    window.HXFrames.renderComposite(hctx, hero.width, state.img, { zoom: zoom, offsetX: 0, offsetY: 0, rotation: 0, flipH: false }, 'classic', assets);
+    window.HXFrames.renderComposite(hctx, hero.width, state.img, { zoom: zoom, offsetX: 0, offsetY: 0, rotation: 0, flipH: false }, 'candy', assets);
   }
 
   function renderAll() {
@@ -509,6 +509,14 @@
     logo.onload = function () { assets.logo = logo; renderAll(); };
     logo.onerror = function () { toast('Không tải được logo HackUNIX.', 'error'); renderAll(); };
     logo.src = 'HackUNIX_logo_white.png';
+
+    // 4 khung kawaii (raster art đã tách nền + khoét lỗ)
+    (window.HXFrames.ART_SOURCES || []).forEach(function (item) {
+      var art = new Image();
+      art.onload = function () { assets.frameArts[item.id] = art; renderAll(); };
+      art.onerror = function () { console.warn('Không tải được art khung: ' + item.src); };
+      art.src = item.src;
+    });
 
     // Ảnh mẫu: zoom sâu để chân dung lấp đầy khung, không bị nền tròn bên trong ảnh làm rối
     var demo = new Image();
