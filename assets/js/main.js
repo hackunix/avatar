@@ -10,6 +10,7 @@
 
   var PREVIEW_SIZE = 1024;
   var MAX_FILE_MB = 10;
+  var DEMO_ZOOM = 1.38;   // crop sâu vào mặt demo, bỏ nền minh hoạ bên trong ảnh
   var ACCEPTED = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif'];
 
   /* ================= State ================= */
@@ -111,7 +112,7 @@
       var canvas = $('canvas', btn);
       var ctx = canvas.getContext('2d');
       var id = btn.getAttribute('data-frame');
-      window.HXFrames.renderComposite(ctx, canvas.width, state.img, { zoom: 1.12, offsetX: 0, offsetY: 0.015, rotation: 0, flipH: false }, id, assets);
+      window.HXFrames.renderComposite(ctx, canvas.width, state.img, { zoom: 1.3, offsetX: 0, offsetY: 0.02, rotation: 0, flipH: false }, id, assets);
       btn.classList.toggle('is-active', id === state.frame);
       btn.setAttribute('aria-pressed', id === state.frame ? 'true' : 'false');
     });
@@ -121,7 +122,8 @@
     var hero = $('#heroAvatar');
     if (!hero) return;
     var hctx = hero.getContext('2d');
-    window.HXFrames.renderComposite(hctx, hero.width, state.img, { zoom: 1, offsetX: 0, offsetY: 0, rotation: 0, flipH: false }, 'classic', assets);
+    var zoom = state.isDemo ? DEMO_ZOOM : state.zoom;
+    window.HXFrames.renderComposite(hctx, hero.width, state.img, { zoom: zoom, offsetX: 0, offsetY: 0, rotation: 0, flipH: false }, 'classic', assets);
   }
 
   function renderAll() {
@@ -508,10 +510,17 @@
     logo.onerror = function () { toast('Không tải được logo HackUNIX.', 'error'); renderAll(); };
     logo.src = 'HackUNIX_logo_white.png';
 
-    // Ảnh mẫu để studio không bao giờ trống
+    // Ảnh mẫu: zoom sâu để chân dung lấp đầy khung, không bị nền tròn bên trong ảnh làm rối
     var demo = new Image();
     demo.onload = function () {
-      if (state.isDemo) { state.img = demo; renderAll(); }
+      if (state.isDemo) {
+        state.img = demo;
+        state.zoom = DEMO_ZOOM;
+        $('#zoomRange').value = Math.round(DEMO_ZOOM * 100);
+        $('#zoomValue').textContent = Math.round(DEMO_ZOOM * 100) + '%';
+        paintRange($('#zoomRange'));
+        renderAll();
+      }
     };
     demo.src = 'assets/img/demo-avatar.jpg';
 
